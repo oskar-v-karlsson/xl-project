@@ -1,5 +1,7 @@
 package util;
 
+import model.CellAddress;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +15,7 @@ public class XLBufferedReader extends BufferedReader {
   }
 
   // TODO Change Object to something appropriate
-  public void load(Map<String, Object> map) throws IOException {
+  public void load(Map<String, CellAddress> map) throws IOException {
     try {
       while (ready()) {
         String string = readLine();
