@@ -31,6 +31,7 @@ public class XL extends Application {
 
   public XL() {
     // TODO: add listener(s) for model?
+    model.addListener((CellAddress address, String content) -> this.cellValueUpdated(address.toString(), content));
   }
 
   public void onCellSelected(GridCell cell) {
@@ -78,6 +79,8 @@ public class XL extends Application {
         addressLbl.setText(newValue.address.toString() + " =");
         editor.setDisable(false);
         // TODO: update editor text.
+        String text = model.getCell((newValue.address));
+        editor.setText(text);
         editor.requestFocus();
       } else {
         addressLbl.setText("?? =");
@@ -119,6 +122,14 @@ public class XL extends Application {
     }
   }
 
+  public void onCellClear() {
+    model.clearCell(currentCell.get().address);
+  }
+
+  public void clearAll() {
+    model.clearAll();
+  }
+
   public void loadFile(File file) {
     try {
       model.loadFile(file);
@@ -127,6 +138,10 @@ public class XL extends Application {
   }
 
   public void saveFile(File file) {
-    model.saveFile(file);
+    try{
+      model.saveFile(file);
+    }
+    catch (IOException e) {
+    }
   }
 }
