@@ -4,11 +4,11 @@ import expr.Environment;
 import expr.Expr;
 import expr.ExprResult;
 
-public class CellContent implements Environment {
-    private String contents;
-    private Expr expression;
+public interface CellContent {
+    
+    public void update(String s);
 
-    public ExprResult value(String name) {
+    public String getContent();
 
-    }
+    public ExprResult value(Environment env);
 }
