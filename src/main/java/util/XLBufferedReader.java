@@ -1,19 +1,13 @@
 package util;
 
-import javafx.scene.control.Cell;
-import model.CellAddress;
 import model.CellContent;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Map;
-
 import model.CellCreator;
-import model.DisplayedContent;
 
 public class XLBufferedReader extends BufferedReader {
   public XLBufferedReader(File file) throws FileNotFoundException {

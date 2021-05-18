@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-public class XLModel extends ObservableMap implements Environment {
+public class XLModel implements Environment {
   public static final int COLUMNS = 10, ROWS = 10;
   private Map<String, CellContent> map;
   private List<ModelObserver> list;
@@ -43,7 +43,6 @@ public class XLModel extends ObservableMap implements Environment {
   }
 
   private void updateAll(){
-
     for (Map.Entry<String, CellContent> e: map.entrySet()
          ) {
       for(int i=0; i < list.size(); i++){
@@ -52,7 +51,6 @@ public class XLModel extends ObservableMap implements Environment {
     }
   }
 
-  @Override
   public void addListener(ModelObserver mo){
     list.add(mo);
   }
@@ -64,12 +62,6 @@ public class XLModel extends ObservableMap implements Environment {
       return null;
     }
   }
-
-  /*public String getCellContent(CellAddress address){
-    return getCell(address).getContent();
-  }*/
-
-
 
   public void clearCell(CellAddress address) {
     for(int i=0; i < list.size(); i++){
