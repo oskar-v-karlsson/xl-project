@@ -1,5 +1,6 @@
 package util;
 
+import javafx.scene.control.Cell;
 import model.CellAddress;
 import model.CellContent;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
+import model.CellCreator;
 import model.DisplayedContent;
 
 public class XLBufferedReader extends BufferedReader {
@@ -23,13 +25,12 @@ public class XLBufferedReader extends BufferedReader {
     try {
       while (ready()) {
         String string = readLine();
-        int i = string.indexOf('=');
-        // TODO
-        while (string != null){
-          String address = string.substring(0, i);
-          String value = string.substring(i+1, string.length());
-          map.put(address, new DisplayedContent(value));
-        }
+        String[] objects = string.split("=", 2);
+
+        String address = objects[0];
+        String value = objects[1];
+
+        map.put(address, CellCreator.createContentType(value));
       }
     } catch (Exception e) {
       throw new XLException(e.getMessage());

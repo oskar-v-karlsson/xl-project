@@ -18,7 +18,7 @@ public class XLPrintStream extends PrintStream {
       if(!(entry.getValue().toString().equals("")) && entry.getValue()!=null)
       print(entry.getKey());
       print('=');
-      println(entry.getValue());
+      println(entry.getValue().getEditorText());
     }
     flush();
     close();

@@ -1,9 +1,12 @@
 package model;
 
 import expr.Environment;
+import expr.ErrorResult;
+import expr.Expr;
 import expr.ExprResult;
 import javafx.beans.InvalidationListener;
 import javafx.collections.MapChangeListener;
+import javafx.scene.control.Cell;
 import util.XLBufferedReader;
 
 import java.io.File;
@@ -30,18 +33,22 @@ public class XLModel extends ObservableMap implements Environment {
    * @param text    the new code for the cell - can be raw text (starting with #) or an expression
    */
   public void update(CellAddress address, String text) {
-    if(map.containsKey(address.toString())){
-      map.get(address.toString()).update(text);
-    } else{
-      if(text.startsWith("#")){
-        map.put(address.toString(), new DisplayedContent(text));
-      } else{
-        map.put(address.toString(), new ExpressionContent(text));
-      }
-    }
+    map.put(address.toString(), CellCreator.createContentType(text));
 
     for(int i=0; i < list.size(); i++){
-      list.get(i).modelChange(address, String.valueOf(map.get(address.toString()).value(this).value()));
+      list.get(i).modelChange(address.toString(), map.get(address.toString()).getContent(this));
+    }
+
+    updateAll();
+  }
+
+  private void updateAll(){
+
+    for (Map.Entry<String, CellContent> e: map.entrySet()
+         ) {
+      for(int i=0; i < list.size(); i++){
+        list.get(i).modelChange(e.getKey(), map.get(e.getKey()).getContent(this));
+      }
     }
   }
 
@@ -51,10 +58,11 @@ public class XLModel extends ObservableMap implements Environment {
   }
 
   public String getCell(CellAddress address) {
-    if(map.get(address) != null){
-      return map.get(address.toString()).value(this).toString();
+    if(map.get(address.toString()) != null){
+      return map.get(address.toString()).getEditorText();
+    } else{
+      return null;
     }
-    return null;
   }
 
   /*public String getCellContent(CellAddress address){
@@ -64,17 +72,24 @@ public class XLModel extends ObservableMap implements Environment {
 
 
   public void clearCell(CellAddress address) {
-
-    update(address,null);
+    for(int i=0; i < list.size(); i++){
+      list.get(i).modelChange(address.toString(), "");
+    }
+    map.remove(address);
   }
 
   public void clearAll() {
-    for (String address: map.keySet()) {
-      map.put(address, null);
+    for (Map.Entry<String, CellContent> e: map.entrySet()
+         ) {
+      for(int i=0; i < list.size(); i++){
+        list.get(i).modelChange(e.getKey(), "");
+      }
     }
+    map.clear();
   }
 
   public void loadFile(File file) throws FileNotFoundException {
+    clearAll();
     XLBufferedReader reader = new XLBufferedReader(file);
 
     try{
@@ -82,6 +97,8 @@ public class XLModel extends ObservableMap implements Environment {
     } catch (IOException e){
       e.printStackTrace();
     }
+
+    updateAll();
   }
 
   public void saveFile(File file) throws FileNotFoundException {
@@ -91,6 +108,10 @@ public class XLModel extends ObservableMap implements Environment {
 
   @Override
   public ExprResult value(String name) {
-    return map.get(name).value(this);
+    if(map.get(name) != null){
+      return map.get(name).value(this);
+    } else{
+      return new ErrorResult("Referencing empty cell");
+    }
   }
 }

@@ -5,10 +5,10 @@ import expr.Expr;
 import expr.ExprResult;
 
 public interface CellContent {
-    
-    public void update(String s);
 
-    public String getContent();
+    public String getContent(Environment env);
 
     public ExprResult value(Environment env);
+
+    public String getEditorText();
 }

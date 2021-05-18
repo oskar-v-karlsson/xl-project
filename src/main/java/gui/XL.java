@@ -31,7 +31,7 @@ public class XL extends Application {
 
   public XL() {
     // TODO: add listener(s) for model?
-    model.addListener((CellAddress address, String content) -> this.cellValueUpdated(address.toString(), content));
+    model.addListener((String address, String content) -> this.cellValueUpdated(address.toString(), content));
   }
 
   public void onCellSelected(GridCell cell) {
@@ -141,7 +141,8 @@ public class XL extends Application {
     try{
       model.saveFile(file);
     }
-    catch (IOException e) {
+    catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }
