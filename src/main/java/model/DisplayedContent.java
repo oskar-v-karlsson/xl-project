@@ -10,13 +10,13 @@ public class DisplayedContent implements CellContent{
     }
 
     @Override
-    public String getContent(Environment env) {
-        return content;
+    public ExprResult value(Environment env) {
+        return new ErrorResult("References comment");
     }
 
     @Override
-    public ExprResult value(Environment env) {
-        return new ErrorResult("References comment");
+    public String getContent(Environment env) {
+        return content;
     }
 
     @Override

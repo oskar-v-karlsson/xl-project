@@ -2,11 +2,7 @@ package model;
 
 import expr.Environment;
 import expr.ErrorResult;
-import expr.Expr;
 import expr.ExprResult;
-import javafx.beans.InvalidationListener;
-import javafx.collections.MapChangeListener;
-import javafx.scene.control.Cell;
 import util.XLBufferedReader;
 
 import java.io.File;

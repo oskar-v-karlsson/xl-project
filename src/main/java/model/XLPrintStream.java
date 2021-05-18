@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.HashMap;
 import java.util.Map;
 
 public class XLPrintStream extends PrintStream {
