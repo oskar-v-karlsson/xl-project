@@ -15,7 +15,6 @@ public class XLModel implements Environment {
   public static final int COLUMNS = 10, ROWS = 10;
   private Map<String, CellContent> map;
   private List<ModelObserver> list;
-  private Set<CellContent> visited = new HashSet<>();
 
   public XLModel(){
 
@@ -30,8 +29,6 @@ public class XLModel implements Environment {
    * @param text    the new code for the cell - can be raw text (starting with #) or an expression
    */
   public void update(CellAddress address, String text) {
-    visited.clear();
-
     map.put(address.toString(), CellCreator.createContentType(text));
     if(checkCircular(address, text)){
       for(int i=0; i < list.size(); i++){
@@ -61,10 +58,7 @@ public class XLModel implements Environment {
     return false;
   }
 
-
-
   private void updateAll(){
-    visited.clear();
     for (Map.Entry<String, CellContent> e: map.entrySet()
          ) {
       for(int i=0; i < list.size(); i++){
