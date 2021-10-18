@@ -19,7 +19,7 @@ dependencies {
 
 sourceCompatibility = targetCompatibility = '11'
 
-mainClassName = 'gui.XL'
+mainClassName = 'main'
 jar.manifest.attributes 'Main-Class': mainClassName
 jar.destinationDirectory = projectDir
 

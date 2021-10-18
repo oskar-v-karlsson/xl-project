@@ -31,14 +31,18 @@ public class XL extends Application {
 
   public XL() {
     // TODO: add listener(s) for model?
-    model.addListener((String address, String content) -> this.cellValueUpdated(address.toString(), content));
+    model.addListener(this::cellValueUpdated);
   }
 
   public void onCellSelected(GridCell cell) {
     currentCell.set(cell);
   }
 
-  @Override public void start(Stage stage) throws Exception {
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  @Override public void start(Stage stage) {
     GridPane sheet = new GridPane();
     for (int c = 0; c < XLModel.COLUMNS; ++c) {
       Label lbl = new ColumnHeader(c);
@@ -134,6 +138,7 @@ public class XL extends Application {
     try {
       model.loadFile(file);
     } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
